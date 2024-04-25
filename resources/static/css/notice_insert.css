@@ -1,0 +1,37 @@
+.notice-row {
+    border: 1px solid #dbdbdb;
+    cursor: default;
+}
+
+.notice-row td {
+    border: 1px solid #dbdbdb;
+    padding: 1px;
+}
+
+.notice-row td, .notice-row th {
+    font-weight: 600;
+}
+
+.notice-title {
+    border: none;
+    outline: none;
+    background-color: #fafafa;
+    font-weight: 600;
+    width: 100%;
+    height: 20px;
+}
+
+.notice-submit {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.notice-button {
+    border: 1px solid #141414;
+    margin: 0px 5px;
+    width: 80px;
+    height: 40px;
+    background-color: white;
+    font-weight: 600;
+}

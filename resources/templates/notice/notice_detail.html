@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>noticeDetail</title>
+    <th:block th:replace="/notice/fragments/head"></th:block>
+    <link rel="stylesheet" href="/static/css/notice.css">
+    <link rel="stylesheet" href="/static/css/notice-detail.css">
+    <script type="text/javascript" src="/static/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+</head>
+<body>
+    <th:block th:replace="/notice/fragments/header"></th:block>
+
+
+    <main>
+        <div class="notice-header">
+            <h1 class="menu-title">게시글 조회</h1>
+        </div>
+        <article>
+           <section class="notice-detail-header">
+                <h1 class="notice-detail-title">공지사항 게시글 테스트</h1>
+                <div class="notice-detail-description">
+                    <h3>작성자: gildong</h3>
+                    <h3>작성일: 2024-04-18 20:33:33</h3>
+                    <h3>조회수: 130</h3>
+                </div>
+           </section>
+           <section class="notice-content">
+            <p>오늘은<span style="color: rgb(255, 170, 0);">﻿ 몽요일 기부니 너무 안좋다<span style="color: rgb(166, 207, 0);">﻿ 저리가라 제발 가라<b>​</b></span></span></p>
+           </section>
+           <section class="notice-file">
+                <h3>첨부파일</h3>
+                <a href="#">aaaa.jpg</a> / <a href="#">bbb.jpg</a>
+           </section>
+           <div class="detail-buttons">
+                <div class="page-buttons">
+                    <button type="button" class="detail-button pre">이전</button>
+                    <button type="button" class="detail-button next">다음</button>
+                </div>
+                <div>
+                    <button type="button" class="detail-button modify">수정</button>
+                    <button type="button" class="detail-button delete">삭제</button>
+                    <button type="button" class="detail-button list">목록</button>
+                </div>
+           </div>
+        </article>
+    </main>
+    <script type="text/javascript">
+        let oEditors = [];
+        nhn.husky.EZCreator.createInIFrame({
+         oAppRef: oEditors,
+         elPlaceHolder: "ir1",
+         sSkinURI: "/static/SmartEditor2Skin.html",
+         fCreator: "createSEditor2"
+        });
+
+        const submitButton = document.querySelector(".submit");
+
+        submitButton.onclick = () => {
+             // 에디터의 내용이 textarea에 적용된다.
+            oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+
+            // 에디터의 내용에 대한 값 검증은 이곳에서
+            const textareaValue = document.getElementById("ir1").value;
+            alert(textareaValue);
+        }
+        </script>
+</body>
+</html>
