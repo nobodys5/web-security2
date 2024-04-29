@@ -1,112 +1,87 @@
-/* eslint-disable */
-import logo from './logo.svg';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
+import bg from './img/bg.jpg';
+import data from './data.js';
 import { useState } from 'react';
+import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
+import Detail from './routes/Detail.js';
 
 function App() {
-
-  // let post = "무신사 남자 상의 리뷰";
-
-  let [a, b] = useState(["상의 상의 상의", "하의하의",  "모자모자"]);
-  let [like, setLike] = useState([0, 0, 0]);
-  let [detailContent, setDetailContent] = useState(true);
-  let [title, setTitle] = useState(0);
-  let [inputValue, setInputValue] = useState('');
-  // console.log(
-  //   [1, 2, 3].map(function (a) {
-  //     return a;
-  //   })
-  // )
-
-  let num = [1, 2];
-  let num1 = num[0];
-  
-  let [num2, num3] = [1,2];
+  let [shoes] = useState(data);
+  let navigate = useNavigate();
 
   return (
     <div className="App">
-      <div className='black-nav'>
-        <h4>React_blog</h4>
-      </div>
-      {/* <h5 style={{color : "red", fontSize : "15px"}}>{post}</h5> */}
-      <button onClick={() => {
-        let copyA = [...a];
-        copyA[0] = "양말양말";
-        b(copyA);
-      }}>글 수정</button>
-      <button onClick={() => {
-        let copyB = [...a];
-        copyB.sort();
-        b(copyB);
-      }}>가나다순 정렬</button>
-      
-      <div className='list'>
-      <h4 onClick={() => setDetailContent(!detailContent)}>{a[0]}<span onClick={() => setLike(like + 1)}>👍</span>{like}</h4>
-      <p>4월 24일 발행</p>
-      </div>
-      <div className='list'>
-      <h4>{a[1]}</h4>
-      <p>4월 24일 발행</p>
-      </div>
-      <div className='list'>
-      <h4>{a[2]}</h4>
-      <p>4월 24일 발행</p>
+
+
+
+      <Navbar bg="dark" data-bs-theme="dark">
+        <Container>
+          <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
+          <Nav className="me-auto">
+            {/* <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#features">Cart</Nav.Link> */}
+            {/* <Link to="/" style={{color: "white", textDecoration: "none", padding: "5px"}}>홈</Link>
+            <Link to="/detail" style={{color: "white", textDecoration: "none", padding: "5px"}}>상세페이지</Link> */}
+            <Nav.Link onClick={() => {navigate("/")}} style={{color: "white", textDecoration: "none", padding: "5px"}}>홈</Nav.Link>
+            <Nav.Link onClick={() => {navigate("/detail")}} style={{color: "white", textDecoration: "none", padding: "5px"}}>상세페이지</Nav.Link>
+          </Nav>
+        
+        </Container>
+      </Navbar>
+
+      <Routes>
+        <Route path='/' element={<div>  <div className='main-bg' style={{backgroundImage : "url("+ bg +")"}}>
       </div>
 
-      {
-        a.map(function(t, i) {
-          return(
-            <div className='list' key={i}>
-            <h4 onClick={() => {
-              setDetailContent(!detailContent);
-              setTitle(i);
-            }}>{a[i]}<span onClick={(e) =>{
-              e.stopPropagation();
-              let copyLike = [...like];
-              copyLike[i] = copyLike[i] + 1;
-              setLike(copyLike);
-            }}>👍</span>{like[i]}</h4>
-            <p>4월 24일 발행</p>
+      <div className='container'>
+        <div className='row'>
+        
 
-            <button onClick={() => {
-              let copy = [...a];
-              copy.splice(i,1);
-              b(copy);
-            }}>삭제</button>
-            </div>
-          )
-        })
-      }
+          {
+            shoes.map((a, i) => {
+              return(
+                <Card shoes={shoes[i]} i={i}></Card>
+              )
+            })
+          }
+        </div>
+      </div></div>}></Route>
+        <Route path='/detail/:id' element={<Detail shoes={shoes}></Detail>}></Route>
+        <Route path='/about' element={<About></About>}>
+          <Route path='member' element={<div>조직도</div>}></Route>
+          <Route path='location' element={<div>위치</div>}></Route>
+        </Route>
+        <Route path='*' element={<div>존재하지 않는 페이지입니다.</div>}></Route>
+      </Routes>
 
-      <input value={inputValue} onChange={(e) => {setInputValue(e.target.value);
-      console.log(inputValue);}}/>
-      <button onClick={() => {
-        let textupdate = [...a];
-        textupdate.unshift(inputValue);
-        b(textupdate);
-        setInputValue("");
-      }}>글 작성</button>
-      
-      {
-        detailContent == true ? <DetailContent color="orange" a={a} b={b} title={title}/> : null
-      }
+
+    
+
     </div>
   );
 }
-/* 컴포넌트역할함수 첫글자는 무조건 대문자*/
-function DetailContent(props) {
+
+function About() {
   return (
-    <div className='modal' style={{background: props.color}}>
-        <h4>{props.a[props.title]}</h4>
-        <p>날짜</p>
-        <p>상세내용</p>
-        <button onClick={() => {
-          let copyA = [...props.a];
-          copyA[0] = "양말양말";
-          props.b(copyA);
-        }}>글 수정</button>
-      </div>
+  <div>
+    <h4>회사 정보</h4>
+    <Outlet></Outlet>
+  </div>
   )
 }
 
+
+function Card(props) {
+  return (
+
+    <div className='col-md-4'>
+      <img src = {require('./img/canvas' +(props.i + 1) +'.jpg')} height="200px"/>
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
+    </div>
+  )
+
+  
+}
 export default App;
