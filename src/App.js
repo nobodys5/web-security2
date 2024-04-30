@@ -5,6 +5,7 @@ import data from './data.js';
 import { useState } from 'react';
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
+import axios from 'axios';
 
 function App() {
   let [shoes] = useState(data);
@@ -54,9 +55,17 @@ function App() {
         </Route>
         <Route path='*' element={<div>존재하지 않는 페이지입니다.</div>}></Route>
       </Routes>
+      <button onClick={() => {
+        axios.get('/api/data')
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log("error")
+          })
+      }}>버튼</button>
 
-
-    
+          
 
     </div>
   );
