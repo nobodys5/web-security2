@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { context1 } from './../App.js';
 
 let YellowBtn = styled.button`
     background : ${props => props.bg};
@@ -18,8 +20,15 @@ let Box = styled.div`
 `
 
 function Detail(props) {
+
+    let {stock, shoes} = useContext(context1);
+    
+
     let [count, setCount] = useState(0);
     let [alert, setAlert] = useState(true);
+    let [tab, setTab] = useState(0);
+
+
     useEffect(() => {
         setAlert(true);
         console.log("hi");
@@ -32,10 +41,15 @@ function Detail(props) {
     }, [count])
 
     
+
+    
     let {id} = useParams();
+
+    
     console.log(id);
     return(
         <div className='container'>
+            {stock};
             {
                 alert &&
                 <div className="alert alert-warning">
@@ -59,8 +73,60 @@ function Detail(props) {
                     <button className="btn btn-danger">주문하기</button>
                 </div>
             </div>
+            <Nav variant="tabs" defaultActiveKey="/home">
+            <Nav.Item>
+                <Nav.Link eventKey="/link-0" onClick={() => {setTab(0)}}>상세페이지</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link eventKey="link-1" onClick={() => {setTab(1)}}>리뷰</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link eventKey="link-2" onClick={() => {setTab(2)}}>
+                QnA
+                </Nav.Link>
+            </Nav.Item>
+            </Nav>
+            
+                {/* {tab == 0 ?
+                <div>상세페이지 내용</div>
+                : null}
+                
+                {tab == 1 ?
+                <div>리뷰 내용</div>
+                : null}
+
+                {tab == 2 ?
+                <div>QnA 내용</div>
+                : null} */}
+            <TabContent tab={tab}></TabContent>
+            
+            
         </div>
     )
+}
+
+function TabContent({tab}) {
+    let {stock} = useContext(context1);
+    let [fade, setFade] = useState('');
+    useEffect(() => {
+        
+        let timer = setTimeout(() => {setFade("end")}, 1000) 
+        
+        return () => {
+            clearTimeout(timer);
+            setFade("")
+        }
+
+    },[tab])
+
+    if(tab == 0) {
+        return  <div className={"start " + fade}>상세페이지 내용</div>
+    } else if(tab == 1) {
+        return  <div className={"start " + fade}>{stock}</div>
+    } else if(tab == 2) {
+        return  <div className={"start " + fade}></div>
+    }
+    // return [<div className='end'>[<div>상세페이지 내용</div>,  <div>리뷰 내용</div>,  <div>QnA 내용</div>][tab]</div>]
 }
 
 export default Detail;

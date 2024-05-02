@@ -2,13 +2,16 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import './App.css';
 import bg from './img/bg.jpg';
 import data from './data.js';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
 
+export let context1 = createContext();
+
 function App() {
-  let [shoes] = useState(data);
+  let [stock] = useState([10, 11, 12]);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
@@ -47,24 +50,39 @@ function App() {
             })
           }
         </div>
+        <button onClick={() => {
+        axios.get('/api/data')
+          .then((response) => {
+            console.log(response);
+            let copy = [...shoes, ...response.data.data];
+            setShoes(copy);
+
+          })
+          .catch((error) => {
+            console.log("error")
+          })
+      }}>버튼</button>
+      <button onClick={() => {
+        axios.post('/api/postData', {name: "shoes77"})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      }}>버튼2</button>
       </div></div>}></Route>
-        <Route path='/detail/:id' element={<Detail shoes={shoes}></Detail>}></Route>
+      
+        <Route path='/detail/:id' element={
+        <context1.Provider value={{stock, shoes}}><Detail shoes={shoes}></Detail>
+        </context1.Provider>
+        }></Route>
         <Route path='/about' element={<About></About>}>
           <Route path='member' element={<div>조직도</div>}></Route>
           <Route path='location' element={<div>위치</div>}></Route>
         </Route>
         <Route path='*' element={<div>존재하지 않는 페이지입니다.</div>}></Route>
       </Routes>
-      <button onClick={() => {
-        axios.get('/api/data')
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log("error")
-          })
-      }}>버튼</button>
-
           
 
     </div>
