@@ -1,0 +1,20 @@
+시큐리티 기능 큰틀
+: 1 securityconfig 설정값 지정 -> 시큐리티 자체 로그인 패스워드 테스팅 -> principalservice로 권한
+설정하여 id password 테스팅 bcryptpassword @bean컨테이너 활용
+
+2. -> authfailurhandler에 예외처리시 alert 창 띄워보기
+
+3. -> authservice에 로그인 및 회원가입 추상메소드 활용하여 CRUD 형식으로 로그인 및 회원가입 해보기
+-> principaldetail 커스텀 설정 한뒤 authcontroller에 겟맵핑으로 포스트맨 테스팅
+
+4-> 아이디 중복 검사 및 vaildation 유효성 검사 
+
+5.-> 유효성검사 활용한 정규표현식으로 회원가입시 정보값들 설정(한글입력,특수문자,기호,영어등)
+
+6.->logger 이용하여 log 찍기 log를 활용 anotation및 다양한 부분 활용하면 현재 콘솔창에
+결과값들 반환하여 순간순간 잘못된 부분 확인가능
+
+7->validationexteption 예외처리
+
+8 -> oauth2 소셜로그인 기능 활용하여 네이버, 구글 로그인 설정걸어두고 네이버 로그인으로
+로그인 되는지 테스팅
